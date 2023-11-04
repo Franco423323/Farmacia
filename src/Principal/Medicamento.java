@@ -3,7 +3,7 @@ package Principal;
 import java.util.Date;
 
 public class Medicamento {
-
+    private int idMedicamento;
     private String nombreComercial;
     private String nombreGenerico;
     private String indicaciones;
@@ -11,7 +11,8 @@ public class Medicamento {
     private String lote;
     private Date fechaCaducidad;
 
-    public Medicamento(String nombreComercial, String nombreGenerico, String indicaciones, String tipo, String lote, Date fechaCaducidad) {
+    public Medicamento(int idMedicamento, String nombreComercial, String nombreGenerico, String indicaciones, String tipo, String lote, Date fechaCaducidad) {
+        this.idMedicamento = idMedicamento;
         this.nombreComercial = nombreComercial;
         this.nombreGenerico = nombreGenerico;
         this.indicaciones = indicaciones;
@@ -66,6 +67,14 @@ public class Medicamento {
 
     public void setFechaCaducidad(Date fechaCaducidad) {
         this.fechaCaducidad = fechaCaducidad;
+    }
+
+    public int getIdMedicamento() {
+        return idMedicamento;
+    }
+
+    public void setIdMedicamento(int idMedicamento) {
+        this.idMedicamento = idMedicamento;
     }
 
 
