@@ -1,22 +1,21 @@
-
 package Principal;
+
 import Conexion.Connect;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Date;
 
-
 public class Main {
-    public static void main(String[] args) {
-        InventarioMedicamento inventario = new InventarioMedicamento();
+public static void main(String[] args) {
+    InventarioMedicamento inventario = new InventarioMedicamento();
 
-        // Crea un nuevo medicamento
-        Medicamento medicamento = new Medicamento(1 ,"NombreComercial", "NombreGenerico", "Indicaciones", "Tipo", "Lote", new Date());
+    // Crea un nuevo medicamento
+    Medicamento nuevoMedicamento = new Medicamento(1, "NombreComercial", "NombreGenerico", "Indicaciones", "Tipo", "Lote", new Date());
+     Medicamento nuevoMedicamento2 = new Medicamento(2, "Aspirina", "NombreGenerico", "Indicaciones", "Tipo", "Lote", new Date());
+     Medicamento nuevoMedicamento3 = new Medicamento(3, "Aspirina", "NombreGenerico", "Indicaciones", "Tipo", "Lote", new Date());
+   // inventario.insertarMedicamento(nuevoMedicamento3);
 
-        // Inserta el medicamento en l3a base de datos
-        inventario.insertarMedicamento(medicamento);
-        //inventario.eliminarMedicamento(1);
-    }
-            
     }
 
+}
 
