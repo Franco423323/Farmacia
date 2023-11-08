@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class InventarioMedicamento {
+public class GestionPrincipal {
     private ArrayList<Medicamento> medicamentos;
 
-    public InventarioMedicamento() {
+    public GestionPrincipal() {
         medicamentos = new ArrayList<>();
     }
 
@@ -38,8 +38,6 @@ public class InventarioMedicamento {
         } catch (SQLException e) {
             System.out.println("Error al insertar el medicamento: " + e.getMessage());
         }
-    
-    
     }
         public void editarMedicamento(int idMedicamento, Medicamento nuevoMedicamento) {
         String sql = "UPDATE MEDICAMENTOS SET NombreComercial = ?, NombreGenerico = ?, Indicaciones = ?, Tipo = ?, Lote = ?, FechaCaducidad = ? WHERE IDMedicamento = ?";
@@ -63,6 +61,7 @@ public class InventarioMedicamento {
         } catch (SQLException e) {
             System.out.println("Error al actualizar el medicamento: " + e.getMessage());
         }
+        
     }
     
     
@@ -165,5 +164,56 @@ public class InventarioMedicamento {
         }
         return medicamentos;
     }
-     
+public ArrayList<MedicamentosVencidos> obtenerMedicamentosVencidos() {
+    ArrayList<MedicamentosVencidos> medicamentosVencidos = new ArrayList<>();
+    String sql = "SELECT * FROM MEDICAMENTOS_VENCIDOS";
+
+    try (Connection connection = Connect.obtenerConexion();
+         PreparedStatement statement = connection.prepareStatement(sql);
+         ResultSet resultSet = statement.executeQuery()) {
+
+        while (resultSet.next()) {
+            int idRegistro = resultSet.getInt("IDRegistro");
+            int idMedicamento = resultSet.getInt("IDMedicamento");
+            String nombreMedicamento = resultSet.getString("NombreMedicamento");
+            Date fechaVencimiento = resultSet.getDate("FechaVencimiento");
+
+            Medicamento medicamento = obtenerMedicamentoPorID(idMedicamento);
+
+            MedicamentosVencidos medicamentoVencido = new MedicamentosVencidos(idRegistro, medicamento, nombreMedicamento, fechaVencimiento);
+            medicamentosVencidos.add(medicamentoVencido);
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al obtener medicamentos vencidos: " + e.getMessage());
+    }
+    return medicamentosVencidos;
+}
+public static Medicamento obtenerMedicamentoPorID(int idMedicamento) {
+    String sql = "SELECT * FROM MEDICAMENTOS WHERE IDMedicamento = ?";
+
+    try (Connection connection = Connect.obtenerConexion();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, idMedicamento);
+
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                int idMed = resultSet.getInt("IDMedicamento");
+                String nombreComercial = resultSet.getString("NombreComercial");
+                String nombreGenerico = resultSet.getString("NombreGenerico");
+                String indicaciones = resultSet.getString("Indicaciones");
+                String tipo = resultSet.getString("Tipo");
+                String lote = resultSet.getString("Lote");
+                Date fechaCaducidad = resultSet.getDate("FechaCaducidad");
+
+                return new Medicamento(idMed, nombreComercial, nombreGenerico, indicaciones, tipo, lote, fechaCaducidad);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al obtener medicamento por ID: " + e.getMessage());
+    }
+
+    return null; // En caso de que no se encuentre el medicamento
+}
+
+
 }

@@ -47,7 +47,7 @@ public class UbicacionMedicamento {
                     System.out.println("No se pudo asignar el medicamento a la ubicación.");
                 }
             } catch (SQLException e) {
-                System.out.println("Error al asignar medicamento a la ubicación: " + e.getMessage());
+                System.out.println("Error al asignar medicamento, ya existe. Intenta nuevamente ");
             }
         } else {
             System.out.println("La ubicación o el medicamento no existen en la base de datos.");
